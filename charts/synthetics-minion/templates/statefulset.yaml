@@ -74,35 +74,35 @@ spec:
             claimName: {{ .Values.persistence.claimName | quote }}
       {{ end }}
 
-      initContainers:
-        - name: "update-mounted-subpath-permissions"
-          image: "{{ .Values.image.repository }}:{{ include "synthetics-minion.appVersion" . }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ['update-k8s-mounted-subpath-permissions']
-          securityContext:
-            runAsUser: 0
-          env:
-            - name: MINION_UID
-              value: {{ .Values.podSecurityContextRunAsUser | quote }}
-            - name: MINION_GID
-              value: {{ include "synthetics-minion.runAsGroup" . | quote }}
-            - name: TMP_PATH
-              value: {{ include "synthetics-minion.tmp-path" . | quote }}
-            - name: PERMANENT_DATA_STORAGE_PATH
-              value: {{ include "synthetics-minion.permanent-data-path" . | quote }}
-            - name: CUSTOM_MODULES_PATH
-              value: {{ include "synthetics-minion.custom-modules-path" . | quote }}
-            - name: USER_DEFINED_VARIABLES_PATH
-              value: {{ include "synthetics-minion.user-defined-variables-path" . | quote }}
-          volumeMounts:
-          {{- include "synthetics-minion.volumeMounts" . | nindent 12 }}
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "100Mi"
-            limits:
-              cpu: "200m"
-              memory: "200Mi"
+      # initContainers:
+      #   - name: "update-mounted-subpath-permissions"
+      #     image: "{{ .Values.image.repository }}:{{ include "synthetics-minion.appVersion" . }}"
+      #     imagePullPolicy: {{ .Values.image.pullPolicy }}
+      #     command: ['update-k8s-mounted-subpath-permissions']
+      #     securityContext:
+      #       runAsUser: 0
+      #     env:
+      #       - name: MINION_UID
+      #         value: {{ .Values.podSecurityContextRunAsUser | quote }}
+      #       - name: MINION_GID
+      #         value: {{ include "synthetics-minion.runAsGroup" . | quote }}
+      #       - name: TMP_PATH
+      #         value: {{ include "synthetics-minion.tmp-path" . | quote }}
+      #       - name: PERMANENT_DATA_STORAGE_PATH
+      #         value: {{ include "synthetics-minion.permanent-data-path" . | quote }}
+      #       - name: CUSTOM_MODULES_PATH
+      #         value: {{ include "synthetics-minion.custom-modules-path" . | quote }}
+      #       - name: USER_DEFINED_VARIABLES_PATH
+      #         value: {{ include "synthetics-minion.user-defined-variables-path" . | quote }}
+      #     volumeMounts:
+      #     {{- include "synthetics-minion.volumeMounts" . | nindent 12 }}
+      #     resources:
+      #       requests:
+      #         cpu: "100m"
+      #         memory: "100Mi"
+      #       limits:
+      #         cpu: "200m"
+      #         memory: "200Mi"
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ include "synthetics-minion.appVersion" . }}"

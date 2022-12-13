@@ -35,5 +35,5 @@ Session.vim
 .netrwhist
 
 .history
-
+.local-config
 /values.yaml
